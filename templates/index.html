@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+  <!-- Form
+  ================================================== -->
+<div class="form">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">
+          {% if result %}
+              {% if result|length > 0 %}
+              {{ time }} ガチャを回しました！<br>
+              {{ vo.count }} 回目 合計金額 {{ vo.price }} 円<br>
+              結果は<br>
+              
+              <!-- 1段目 (横に5枚) -->
+              <div class="row">
+                {% for rarity, image in result[:5] %}
+                  <div class="col-md-2" style="text-align: center;">
+                    {{ rarity }}<br>
+                    <img src="{{ image }}" alt="ガチャ景品画像" style="width: 100px; height: auto;">
+                  </div>
+                {% endfor %}
+              </div>
+
+              <!-- 2段目 (横に6枚) -->
+              <div class="row">
+                {% for rarity, image in result[5:] %}
+                  <div class="col-md-2" style="text-align: center;">
+                    {{ rarity }}<br>
+                    <img src="{{ image }}" alt="ガチャ景品画像" style="width: 100px; height: auto;">
+                  </div>
+                {% endfor %}
+              </div>
+
+              {% if message %}
+                <strong>{{ message }}</strong><br>
+              {% endif %}
+              でした！
+              {% else %}
+                {{ message }}
+              {% endif %}
+          {% elif message %}
+            {{ message }}
+          {% endif %}
+        </p>
+        <form action="/post" method="post" name="rare" class="form-inline">
+          <button type="submit" name="rare" class="btn btn-default">レアガチャを回す 1回100円</button>
+        </form>
+        <form action="/post" method="post" name="11rare" class="form-inline">
+          <button type="submit" name="11rare" class="btn btn-default">11連レアガチャを回す 1回1000円</button>
+        </form>
+        <form action="/post" method="post" name="reset" class="form-inline">
+          <button type="submit" name="reset" class="btn btn-default">リセットする</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
